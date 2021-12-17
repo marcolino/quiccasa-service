@@ -7,9 +7,7 @@ const passport = require("passport");
 const path = require("path");
 
 // set up port
-//const connUri = process.env.MONGO_LOCAL_CONN_URL;
-const connUri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_URL}/${process.env.MONGO_DB}`;
-//mongodb+srv://admin:<password>@cluster0.bevdd.mongodb.net/test
+const connUri = `${MONGO_SCHEME}://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_URL}/${process.env.MONGO_DB}`;
 console.log("MongoDB connUri:", connUri);
 const port = process.env.PORT || 3000;
 
