@@ -64,20 +64,20 @@ exports.resetPassword = async (req, res) => {
 
         if (!user) return res.status(401).json({message: 'Password reset token is invalid or has expired.'});
 
-        //Set the new password
+        // set the new password
         user.password = req.body.password;
         user.resetPasswordToken = undefined;
         user.resetPasswordExpires = undefined;
         user.isVerified = true;
 
-        // Save the updated user object
+        // save the updated user object
         await user.save();
 
-        let subject = "Your password has been changed";
+        let subject = "Your password has been updated";
         let to = user.email;
         let from = process.env.FROM_EMAIL;
         let html = `<p>Hi ${user.username}</p>
-                    <p>This is a confirmation that the password for your account ${user.email} has just been changed.</p>`
+                    <p>This is a confirmation that the password for your account ${user.email} has just been updated.</p>`
 
         await sendEmail({to, from, subject, html});
 

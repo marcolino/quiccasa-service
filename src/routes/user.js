@@ -20,8 +20,8 @@ router.post('/', [
     check('lastName').not().isEmpty().withMessage('You last name is required')
 ], validate, User.store);
 
-// SHOW
-router.get('/:id',  User.show);
+// GET
+router.get('/:id', User.get);
 
 // UPDATE
 router.put('/:id', upload, User.update);

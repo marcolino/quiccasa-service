@@ -53,7 +53,7 @@ exports.store = async (req, res) => {
 // @route GET api/user/{id}
 // @desc Returns a specific user
 // @access Public
-exports.show = async function (req, res) {
+exports.get = async function (req, res) {
     try {
         const id = req.params.id;
 

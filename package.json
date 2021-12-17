@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon --ignore ./src/client/ src/server.js",
-    "dev": "concurrently --kill-others-on-fail \"nodemon --ignore ./src/client/ src/server.js\" \"cd src/client && npm-watch rawbuild\""
+    "dev": "concurrently --kill-others-on-fail \"nodemon --ignore ./src/client/ src/server.js\" \"cd src/client && npm-watch rawbuild\"",
+    "heroku-postbuild": "cd client && yarn && yarn run build"
   },
   "keywords": [],
   "author": "",

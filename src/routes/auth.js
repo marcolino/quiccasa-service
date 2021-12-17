@@ -23,9 +23,9 @@ router.post("/login", [
   check('password').not().isEmpty(),
 ], validate, Auth.login);
 
-
 // registration confirmation verification
 router.get('/verify/:token', Auth.verify);
+// token reset
 router.post('/resend', Auth.resendToken);
 
 // password reset
