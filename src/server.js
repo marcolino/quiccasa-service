@@ -26,7 +26,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false })); // form-urlencoded
 
 // serve the static files from the client - "client" is a link to the frontend site
-app.use(express.static(path.join(__dirname, "client/build")));
+app.use(express.static(path.join(__dirname, 'client/build')))
+
+// handles any requests that does not match the routes below
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/build"));
+});
+
 
 // app.use(function(req, res, next) {
 //   //next(err);
@@ -55,11 +61,6 @@ require("./middlewares/jwt")(passport);
 // === 4 - CONFIGURE ROUTES
 // configure route
 require("./routes/index")(app);
-
-// handles any requests that does not match the ones above
-// app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname, "client/build"));
-// });
 
 // === 5 - START SERVER
 app.listen(port, () => console.log(`Server running on http://localhost:${port}/`));
