@@ -91,7 +91,7 @@ exports.update = async function (req, res) {
         if (!req.file) return res.status(200).json({user: user_, message: 'User has been updated'});
 
     } catch (error) {
-        res.status(500).json({message: error.message}); 
+        res.status(500).json({message: error.message});
     }
 };
 
