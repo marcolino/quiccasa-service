@@ -109,7 +109,7 @@ UserSchema.methods.generateJWT = function() {
 
 UserSchema.methods.generatePasswordReset = function() {
     this.resetPasswordToken = crypto.randomBytes(20).toString('hex');
-    this.resetPasswordExpires = Date.now() + 3600000; //expires in an hour
+    this.resetPasswordExpires = Date.now() + (3600 * 1000); // expires in an hour
 };
 
 UserSchema.methods.generateVerificationToken = function() {
