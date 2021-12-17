@@ -1,0 +1,72 @@
+/* general */
+
+/**
+ * calculate global font size based on viewport width: from a minimum of 15px to a maximum of 18px
+ * font-size: calc([minimum size] + ([maximum size] - [minimum size]) *
+ *   ((100vw - [minimum viewport width]) / ([maximum viewport width] - [minimum viewport width])));
+ */
+html {
+  font-size: 15px;
+}
+@media screen and (min-width: 320px) {
+  html {
+    font-size: calc(15px + 3 * ((100vw - 320px) / 680));
+  }
+}
+@media screen and (min-width: 900px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Open Sans', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-weight: 300 !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+form {
+  width: "100%"; /* fix IE 11 issue */
+}
+
+/* do not show spinner buttons in numeric inputs */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+/* avoid notifications buttons utline on click (for example) */
+.no-outline-on-focus button:focus,
+.no-outline-on-focus a:focus {
+  outline: none;
+}
+
+/* react-toastify */
+.Toastify__toast--success {
+  background: #179013 !important;
+}
+.Toastify__toast--info {
+  background: #0088bb !important;
+}
+.Toastify__toast--warning {
+  /* background: #B85500 !important; */
+  background: orange !important; /* TODO: lighthouse does not like low contrast styles... */
+}
+.Toastify__toast--error {
+  background: #921014 !important;
+}
+.toastContainer {
+  margin-top: 3.5rem !important; /* to show under toolbar, in dektop mode */
+}
+.toastBody {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Open Sans', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+}
