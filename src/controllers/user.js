@@ -84,7 +84,7 @@ exports.update = async function (req, res) {
         //if there is no image, return success message
         if (!req.file) return res.status(200).json({user, message: 'User has been updated'});
 
-        //Attempt to upload to cloudinary
+        // attempt to upload to cloudinary
         const result = await uploader(req);
         const user_ = await User.findByIdAndUpdate(id, {$set: update}, {$set: {profileImage: result.url}}, {new: true});
 
