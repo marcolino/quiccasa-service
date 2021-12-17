@@ -8,8 +8,9 @@ const path = require("path");
 
 // set up port
 //const connUri = process.env.MONGO_LOCAL_CONN_URL;
-const connUri = `mongodb://${process.env.MONGO_USER}@${process.env.MONGO_PASS}@${process.env.MONGO_URL}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}`;
-
+const connUri = `mongodb+srv://${process.env.MONGO_USER}@${process.env.MONGO_PASS}@${process.env.MONGO_URL}/${process.env.MONGO_DB}`;
+//mongodb+srv://admin:<password>@cluster0.bevdd.mongodb.net/test
+console.log("MongoDB connUri:", connUri);
 const port = process.env.PORT || 3000;
 
 // === 1 - CREATE APP
