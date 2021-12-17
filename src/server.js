@@ -26,12 +26,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false })); // form-urlencoded
 
 // serve the static files from the client - "client" is a link to the frontend site
-console.log("__direname:", __dirname);
-app.use(express.static(path.join(__dirname, '../client/build')))
+console.log("__dirname:", __dirname);
+app.use(express.static(path.join(__dirname, '/../client/build')))
 
 // handles any requests that does not match the routes below
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/build"));
+  res.sendFile(path.join(__dirname, "/../client/build"));
 });
 
 
