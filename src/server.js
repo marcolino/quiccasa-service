@@ -25,21 +25,6 @@ app.use(express.json());
 // for parsing application/xwww-
 app.use(express.urlencoded({ extended: false })); // form-urlencoded
 
-// // serve the static files from the client - "client" is a link to the frontend site
-console.log("__dirname:", __dirname);
-// app.use(express.static(path.join(__dirname, '/../client/build/index.html')))
-
-// // handles any requests that does not match the routes below
-// app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname, "/../client/build/index.html"));
-// });
-
-const root = path.join(__dirname, '..', 'client', 'build')
-app.use(express.static(root));
-app.get("*", (req, res) => {
-  res.sendFile('index.html', { root });
-})
-
 // app.use(function(req, res, next) {
 //   //next(err);
 //   res.status(404).json(error("Not found"));
@@ -65,8 +50,23 @@ app.use(passport.initialize());
 require("./middlewares/jwt")(passport);
 
 // === 4 - CONFIGURE ROUTES
-// configure route
+// configure routes
 require("./routes/index")(app);
+
+// // serve the static files from the client - "client" is a link to the frontend site
+console.log("__dirname:", __dirname);
+// app.use(express.static(path.join(__dirname, '/../client/build/index.html')))
+
+// // handles any requests that does not match the routes below
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "/../client/build/index.html"));
+// });
+
+const root = path.join(__dirname, '..', 'client', 'build')
+app.use(express.static(root));
+app.get("*", (req, res) => {
+  res.sendFile('index.html', { root });
+})
 
 // === 5 - START SERVER
 app.listen(port, () => console.log(`Server running on http://localhost:${port}/`));
