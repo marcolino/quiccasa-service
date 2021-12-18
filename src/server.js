@@ -26,7 +26,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false })); // form-urlencoded
 
 // // serve the static files from the client - "client" is a link to the frontend site
-// console.log("__dirname:", __dirname);
+console.log("__dirname:", __dirname);
 // app.use(express.static(path.join(__dirname, '/../client/build/index.html')))
 
 // // handles any requests that does not match the routes below
@@ -34,7 +34,7 @@ app.use(express.urlencoded({ extended: false })); // form-urlencoded
 //   res.sendFile(path.join(__dirname, "/../client/build/index.html"));
 // });
 
-const root = path.join(__dirname, 'client', 'build')
+const root = path.join(__dirname, '..', 'client', 'build')
 app.use(express.static(root));
 app.get("*", (req, res) => {
   res.sendFile('index.html', { root });
