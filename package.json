@@ -7,8 +7,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon --ignore client/ src/server.js",
-    "dev": "concurrently --kill-others-on-fail \"nodemon --ignore client/ src/server.js\" \"cd client && npm-watch rawbuild\"",
-    "pub": "git add . && git commit -m \"deploying to heroku\" && git push heroku master && heroku logs --tail"
+    "dev_OLD_METHOD_WITH_SYMBOLIC_LINK": "concurrently --kill-others-on-fail \"nodemon --ignore client/ src/server.js\" \"cd client && npm-watch rawbuild\"",
+    "pub": "git add . && git commit -m \"deploying to heroku\" && git push heroku master",
+    "pubdev": "yarn pub && heroku logs --tail"
   },
   "keywords": [],
   "author": "",
