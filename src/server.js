@@ -25,15 +25,20 @@ app.use(express.json());
 // for parsing application/xwww-
 app.use(express.urlencoded({ extended: false })); // form-urlencoded
 
-// serve the static files from the client - "client" is a link to the frontend site
-console.log("__dirname:", __dirname);
-app.use(express.static(path.join(__dirname, '/../client/build/index.html')))
+// // serve the static files from the client - "client" is a link to the frontend site
+// console.log("__dirname:", __dirname);
+// app.use(express.static(path.join(__dirname, '/../client/build/index.html')))
 
-// handles any requests that does not match the routes below
+// // handles any requests that does not match the routes below
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "/../client/build/index.html"));
+// });
+
+const root = path.join(__dirname, 'client', 'build')
+app.use(express.static(root));
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "/../client/build/index.html"));
-});
-
+  res.sendFile('index.html', { root });
+})
 
 // app.use(function(req, res, next) {
 //   //next(err);
