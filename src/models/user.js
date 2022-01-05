@@ -2,8 +2,9 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
-
 const Token = require('../models/token');
+const { secondsUpToNextDays } = require("../utils");
+
 
 const UserSchema = new mongoose.Schema({
     email: {
@@ -90,9 +91,10 @@ UserSchema.methods.comparePassword = function(password) {
 };
 
 UserSchema.methods.generateJWT = function() {
-    const today = new Date();
-    const expirationDate = new Date(today);
-    expirationDate.setDate(today.getDate() + 60);
+    // const today = new Date();
+    // const expirationDate = new Date(today);
+    // expirationDate.setDate(today.getDate() + 60);
+    const expiresIn = process.env.JWT_ACCESS_TOKEN_EXPIRY;
 
     let payload = {
         id: this._id,
@@ -102,9 +104,10 @@ UserSchema.methods.generateJWT = function() {
         lastName: this.lastName,
     };
 
-    return jwt.sign(payload, process.env.JWT_SECRET, {
-        expiresIn: parseInt(expirationDate.getTime() / 1000, 10)
-    });
+    const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_TOKEN_SECRET, { expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRY });
+    const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_TOKEN_SECRET, { expiresIn: process.env.JWT_REFRESH_TOKEN_EXPIRY });
+    return { accessToken, refreshToken };
+    //return jwt.sign(payload, process.env.JWT_ACCESS_TOKEN_SECRET, { expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRY });
 };
 
 UserSchema.methods.generatePasswordReset = function() {

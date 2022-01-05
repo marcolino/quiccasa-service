@@ -1,10 +1,13 @@
-require("dotenv").config();
-
 const express = require("express");
+const logger = require("morgan");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const passport = require("passport");
 const path = require("path");
+
+if (process.env.NODE_ENV !== "production") { // load environment variables from .env file in non production environments
+  require("dotenv").config();
+}
 
 // set up port
 const connUri = `${process.env.MONGO_SCHEME}://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_URL}/${process.env.MONGO_DB}`;
@@ -15,7 +18,10 @@ const port = process.env.PORT || 3000;
 // creating express app and configuring middleware needed for authentication
 const app = express();
 
-app.locals.settings["x-powered-by"] = false;
+app.use(logger('dev'));
+
+//app.locals.settings["x-powered-by"] = false;
+app.disable("x-powered-by");
 
 app.use(cors());
 
@@ -24,6 +30,22 @@ app.use(express.json());
 
 // for parsing application/xwww-
 app.use(express.urlencoded({ extended: false })); // form-urlencoded
+
+// TODO: handle CORS white-listing
+// const whitelist = process.env.WHITELISTED_DOMAINS
+//   ? process.env.WHITELISTED_DOMAINS.split(",")
+//   : []
+// ;
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     if (!origin || whitelist.indexOf(origin) !== -1) {
+//       callback(null, true)
+//     } else {
+//       callback(new Error("Not allowed by CORS"))
+//     }
+//   },
+//   credentials: true,
+// }
 
 // app.use(function(req, res, next) {
 //   //next(err);

@@ -1,8 +1,8 @@
-const Datauri = require('datauri');
-const path = require('path');
-
-const cloudinary = require('../config/cloudinary');
-const sgMail = require('@sendgrid/mail');
+const Datauri = require("datauri");
+const path = require("path");
+const sgMail = require("@sendgrid/mail");
+const cloudinary = require("../config/cloudinary");
+//const { sendEmail } = require("../utils/index");
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 

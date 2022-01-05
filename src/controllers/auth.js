@@ -1,6 +1,6 @@
 const User = require("../models/user");
 const Token = require("../models/token");
-const { sendEmail } = require("../utils/index");
+//const { getToken, COOKIE_OPTIONS, getRefreshToken } = require("../authenticate");
 
 // @route POST api/auth/register
 // @desc Register user
@@ -17,9 +17,9 @@ exports.register = async (req, res) => {
 
         const newUser = new User({ ...req.body, role: "basic" });
 
-        /*const user_ = */await newUser.save();
+        /*const user_ = */await newUser.save(); // TODO: check errors...
 
-        return await sendVerificationEmail(newUser, req, res);
+        return await sendVerificationEmail(newUser, req, res); // TODO: if error remove refreshtoken ?
 
         //// registration successful, write token, and send back user
         //res.status(200).json({user: newUser, codeDeliveryMedium: "email"});
@@ -47,12 +47,12 @@ exports.login = async (req, res) => {
         if (!user.isVerified) return res.status(401).json({ type: "not-verified", message: "Your account has not been verified." });
 
         // login successful, write token, and send back user
-        res.status(200).json({token: user.generateJWT(), user});
+        //res.status(200).json({token: user.generateJWT(), user});
+        res.status(200).json({ token: user.generateJWT().accessToken, user});
     } catch (error) {
         res.status(500).json({message: error.message})
     }
 };
-
 
 // ===EMAIL VERIFICATION
 // @route GET api/verify/:token
@@ -79,7 +79,7 @@ exports.verify = async (req, res) => {
 
             if (user.isVerified) return res.status(400).json({ message: "This user has already been verified." });
 
-            // Verify and save the user
+            // verify and save the user
             user.isVerified = true;
             console.log(7);
             user.save(function(err) {

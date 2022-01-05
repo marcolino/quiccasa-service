@@ -1,0 +1,9 @@
+SERVICE:
+ - refresh token
+ - i18n
+ - whitelisting domain
+ - roles
+ - backoffice (revokeToken, ...)
+
+CLIENT:
+ - autodetect auth expired

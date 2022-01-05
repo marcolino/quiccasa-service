@@ -12,5 +12,9 @@ V Deploying a React app with React-Router and an Express Backend:
   https://daveceddia.com/deploy-react-express-app-heroku/
 - How to deploy MongoDB on Heroku:
   https://www.mongodb.com/developer/how-to/use-atlas-on-heroku/
-- Login with Facebook:
-  https://morioh.com/p/355d2865ba27
+- How to implement Google oauth in React and Node/express:
+  https://awadieudonne.com/blog/How-to-implement-Google-oauth-in-a-React-and-Nodeexpress
+- Refresh token with JWT authentication in Node.js:
+  https://www.izertis.com/en/-/refresh-token-with-jwt-authentication-in-node-js
+- Nodejs Authentication Using JWT and Refresh Token:
+  https://codeforgeek.com/refresh-token-jwt-nodejs-authentication/

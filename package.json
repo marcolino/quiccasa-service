@@ -3,12 +3,12 @@
   "version": "1.0.7",
   "description": "",
   "main": "index.js",
-  "homepage": "https://pure-wave-09594.herokuapp.com/",
+  "homepage": "https://quiccasa.herokuapp.com/",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon --ignore client/ src/server.js",
     "dev_OLD_METHOD_WITH_SYMBOLIC_LINK": "concurrently --kill-others-on-fail \"nodemon --ignore client/ src/server.js\" \"cd client && npm-watch rawbuild\"",
-    "pub": "git add . && git commit -m \"deploying to heroku\" && git push heroku master",
+    "pub": "git add . && git commit -m \"deploying to heroku\" && git push && git push heroku master",
     "pubdev": "yarn pub && heroku logs --tail"
   },
   "keywords": [],
@@ -29,6 +29,7 @@
     "jade": "^1.11.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.7.5",
+    "morgan": "^1.10.0",
     "multer": "^1.4.2",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",

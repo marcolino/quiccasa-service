@@ -5,8 +5,8 @@ const User = require('../models/user');
 
 const opts = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: process.env.JWT_SECRET,
-    expiresIn: "15s",
+    secretOrKey: process.env.JWT_ACCESS_TOKEN_SECRET,
+    expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRY,
 };
 
 module.exports = passport => {
