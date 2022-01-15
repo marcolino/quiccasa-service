@@ -76,7 +76,7 @@ require("./middlewares/jwt")(passport);
 require("./routes/index")(app);
 
 // // serve the static files from the client - "client" is a link to the frontend site
-console.log("__dirname:", __dirname);
+//console.log("__dirname:", __dirname);
 // app.use(express.static(path.join(__dirname, '/../client/build/index.html')))
 
 // // handles any requests that does not match the routes below
