@@ -1,15 +1,19 @@
 {
   "name": "nodejsapi",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "",
   "main": "index.js",
   "homepage": "https://quiccasa.herokuapp.com/",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --ignore client/ src/server.js",
+    "OLD_start-dev": "nodemon --ignore client/ src/server.js",
+    "start-dev": "nodemon --ignore client/ -w '.' -e 'js,css' src/server.js",
+    "start": "node src/server.js",
     "dev_OLD_METHOD_WITH_SYMBOLIC_LINK": "concurrently --kill-others-on-fail \"nodemon --ignore client/ src/server.js\" \"cd client && npm-watch rawbuild\"",
-    "pub": "git add . && git commit -m \"deploying to heroku\" && git push && git push heroku master",
-    "pubdev": "yarn pub && heroku logs --tail"
+    "pub": "git add . && git commit -m \"deploying to heroku\" && git push && yarn deploy",
+    "pubdev": "yarn pub && heroku logs --tail",
+    "deploy": "git push heroku master",
+    "refresh-client_DO_NOT_USE__CLIENT_WILL_COPY": "cp -a ../quiccasa-client/build client/"
   },
   "keywords": [],
   "author": "",
