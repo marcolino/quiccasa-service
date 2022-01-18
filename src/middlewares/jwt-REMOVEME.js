@@ -1,7 +1,7 @@
-const JwtStrategy = require('passport-jwt').Strategy;
-const ExtractJwt = require('passport-jwt').ExtractJwt;
+const JwtStrategy = require("passport-jwt").Strategy;
+const ExtractJwt = require("passport-jwt").ExtractJwt;
 
-const User = require('../models/user');
+const User = require("../models/user");
 
 const opts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -18,7 +18,7 @@ module.exports = passport => {
           return done(null, false);
         })
         .catch(err => {
-          return done(err, false, { message: 'Server Error' });
+          return done(err, false, { message: "Server Error" });
         })
       ;
     })

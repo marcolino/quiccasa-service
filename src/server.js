@@ -6,7 +6,7 @@ const passport = require("passport");
 const path = require("path");
 
 if (process.env.NODE_ENV !== "production") { // load environment variables from .env file in non production environments
-  require("dotenv").config();
+  require('dotenv').config({ path: path.resolve(__dirname, "../.env") })
 }
 
 // set up port
@@ -69,7 +69,10 @@ connection.on("error", (err) => {
 
 // === 3 - INITIALIZE PASSPORT MIDDLEWARE
 app.use(passport.initialize());
-require("./middlewares/jwt")(passport);
+//require("./middlewares/jwt")(passport);
+require("./middlewares/strategies/jwt-local")(passport);
+
+require("./middlewares/strategies/oauth2-google")(passport);
 
 // === 4 - CONFIGURE ROUTES
 // configure routes

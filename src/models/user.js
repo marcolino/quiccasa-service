@@ -7,122 +7,122 @@ const { secondsUpToNextDays } = require("../utils");
 
 
 const UserSchema = new mongoose.Schema({
-    email: {
-        type: String,
-        unique: true,
-        required: 'Your email is required',
-        trim: true
-    },
+  email: {
+    type: String,
+    unique: true,
+    required: 'Your email is required',
+    trim: true
+  },
 
-    username: {
-        type: String,
-        unique: true,
-        required: false,
-        index: true,
-        sparse: true
-    },
+  username: {
+    type: String,
+    unique: true,
+    required: false,
+    index: true,
+    sparse: true
+  },
 
-    password: {
-        type: String,
-        required: 'Your password is required',
-        max: 100
-    },
+  password: {
+    type: String,
+    required: 'Your password is required',
+    max: 100
+  },
 
-    firstName: {
-        type: String,
-        required: 'First Name is required',
-        max: 100
-    },
+  firstName: {
+    type: String,
+    required: 'First Name is required',
+    max: 100
+  },
 
-    lastName: {
-        type: String,
-        required: 'Last Name is required',
-        max: 100
-    },
+  lastName: {
+    type: String,
+    required: 'Last Name is required',
+    max: 100
+  },
 
-    bio: {
-        type: String,
-        required: false,
-        max: 255
-    },
+  bio: {
+    type: String,
+    required: false,
+    max: 255
+  },
 
-    profileImage: {
-        type: String,
-        required: false,
-        max: 255
-    },
+  profileImage: {
+    type: String,
+    required: false,
+    max: 255
+  },
 
-    isVerified: {
-        type: Boolean,
-        default: false
-    },
+  isVerified: {
+    type: Boolean,
+    default: false
+  },
 
-    resetPasswordToken: {
-        type: String,
-        required: false
-    },
+  resetPasswordToken: {
+    type: String,
+    required: false
+  },
 
-    resetPasswordExpires: {
-        type: Date,
-        required: false
-    }
+  resetPasswordExpires: {
+    type: Date,
+    required: false
+  }
 }, {timestamps: true});
 
 
 UserSchema.pre('save',  function(next) {
-    const user = this;
+  const user = this;
 
-    if (!user.isModified('password')) return next();
+  if (!user.isModified('password')) return next();
 
-    bcrypt.genSalt(10, function(err, salt) {
-        if (err) return next(err);
+  bcrypt.genSalt(10, function(err, salt) {
+    if (err) return next(err);
 
-        bcrypt.hash(user.password, salt, function(err, hash) {
-            if (err) return next(err);
+    bcrypt.hash(user.password, salt, function(err, hash) {
+      if (err) return next(err);
 
-            user.password = hash;
-            next();
-        });
+      user.password = hash;
+      next();
     });
+  });
 });
 
 UserSchema.methods.comparePassword = function(password) {
-    return bcrypt.compareSync(password, this.password);
+  return bcrypt.compareSync(password, this.password);
 };
 
 UserSchema.methods.generateJWT = function() {
-    // const today = new Date();
-    // const expirationDate = new Date(today);
-    // expirationDate.setDate(today.getDate() + 60);
-    const expiresIn = process.env.JWT_ACCESS_TOKEN_EXPIRY;
+  // const today = new Date();
+  // const expirationDate = new Date(today);
+  // expirationDate.setDate(today.getDate() + 60);
+  const accessTokenExpiresIn = process.env.JWT_ACCESS_TOKEN_EXPIRY;
+  const refreshTokenExpiresIn = process.env.JWT_REFRESH_TOKEN_EXPIRY;
 
-    let payload = {
-        id: this._id,
-        email: this.email,
-        username: this.username,
-        firstName: this.firstName,
-        lastName: this.lastName,
-    };
+  let payload = {
+    id: this._id,
+    email: this.email,
+    username: this.username,
+    firstName: this.firstName,
+    lastName: this.lastName,
+  };
 
-    const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_TOKEN_SECRET, { expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRY });
-    const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_TOKEN_SECRET, { expiresIn: process.env.JWT_REFRESH_TOKEN_EXPIRY });
-    return { accessToken, refreshToken };
-    //return jwt.sign(payload, process.env.JWT_ACCESS_TOKEN_SECRET, { expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRY });
+  const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_TOKEN_SECRET, { expiresIn: accessTokenExpiresIn });
+  const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_TOKEN_SECRET, { expiresIn: refreshTokenExpiresIn });
+  return { accessToken, refreshToken };
 };
 
 UserSchema.methods.generatePasswordReset = function() {
-    this.resetPasswordToken = crypto.randomBytes(20).toString('hex');
-    this.resetPasswordExpires = Date.now() + (3600 * 1000); // expires in an hour
+  this.resetPasswordToken = crypto.randomBytes(20).toString('hex');
+  this.resetPasswordExpires = Date.now() + (3600 * 1000); // expires in an hour
 };
 
 UserSchema.methods.generateVerificationToken = function() {
-    let payload = {
-        userId: this._id,
-        //token: crypto.randomBytes(20).toString('hex')
-        token: Math.floor(Math.random(1000000) * 1000000),
-    };
+  let payload = {
+    userId: this._id,
+    //token: crypto.randomBytes(20).toString('hex')
+    token: Math.floor(Math.random(1000000) * 1000000),
+  };
 
-    return new Token(payload);
+  return new Token(payload);
 };
 
 module.exports = mongoose.model('Users', UserSchema);
