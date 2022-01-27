@@ -12,6 +12,7 @@ const errorHandler = require("./middlewares/error-handler");
 const User = require("./models/user");
 
 
+console.log("ENV:", process.env.NODE_ENV);
 
 // use environment configuration
 if (process.env.NODE_ENV !== "production") { // load environment variables from .env file in non production environments
