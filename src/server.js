@@ -1,12 +1,12 @@
 const express = require("express");
-//const session = require("express-session");
+//const session = require("express-session"); // TODO: uninstall me
+const session = require("cookie-session");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const passport = require("passport");
 const path = require("path");
 const errorHandler = require("./middlewares/error-handler");
-const session = require("express-session");
 // const cookieSession = require("cookie-session");
 // const cookieParser = require("cookie-parser");
 const User = require("./models/user");
