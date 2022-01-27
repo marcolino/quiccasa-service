@@ -20,7 +20,7 @@ if (process.env.NODE_ENV !== "production") { // load environment variables from 
 }
 
 // set up database connection uri
-const connUri = (true || process.env.NODE_ENV !== "production") ?
+const connUri = (process.env.NODE_ENV !== "production") ?
   process.env.MONGO_LOCAL_CONN_URL :
   `${process.env.MONGO_SCHEME}://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_URL}/${process.env.MONGO_DB}`
 ;
