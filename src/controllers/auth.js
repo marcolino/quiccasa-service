@@ -1,12 +1,12 @@
 const User = require("../models/user");
 const Token = require("../models/token");
+const sendemail = require("../helpers/sendemail");
 //const { getToken, COOKIE_OPTIONS, getRefreshToken } = require("../authenticate");
 
 // @route POST api/auth/register
 // @desc Register user
 // @access Public
 exports.register = async (req, res) => {
-  console.log("API:", "register");
   try {
     const { email } = req.body;
 
@@ -113,7 +113,7 @@ console.log("sending email - user:", user);
 <p>If you did not request this, please ignore this email.</p>
     `;
 console.log("sending email:", to, from, subject, html);
-    await sendEmail({to, from, subject, html});
+    await sendemail({to, from, subject, html});
 
     res.status(200).json({ message: `A verification email has been sent to ${user.email}.`, codeDeliveryMedium: "email" });
   } catch (error) {
@@ -130,22 +130,29 @@ exports.login = async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
+    console.log('LOGIN 1');
 
     // check user email exists
-    if (!user) return res.status(401).json({ message: `The email address ${email} is not associated with any account. Double-check your email address and try again.` });
+    if (!user) return res.status(401).json({ message: `The email address ${email} is not associated with any account. Double-check your email address and try again.`, reason: "email-not-found" });
+    console.log('LOGIN 2');
 
     // validate password
-    if (!user.comparePassword(password)) return res.status(401).json({message: "Invalid email or password"});
+    if (!user.comparePassword(password)) return res.status(401).json({ message: "Invalid email or password", reason: "invalid-email-or-password" });
+    console.log('LOGIN 3');
 
     // make sure the user has been verified
-    if (!user.isVerified) return res.status(401).json({ type: "not-verified", message: "Your account has not been verified." });
+    if (!user.isVerified) return res.status(401).json({ message: "Your account has not been verified yet", reason: "not-verified" });
+    console.log('LOGIN 4');
 
     // login successful, write token, and send back user
     //res.status(200).json({ token: user.generateJWT().accessToken, user});
     //const res = user.generateJWT()
-    const { accessToken, refreshToken } = user.generateJWT()
-    res.status(200).json({ accessToken, refreshToken, user});
+    const { accessToken, refreshToken } = user.generateJWT();
+    console.log('LOGIN 5');
+    res.status(200).json({ accessToken, refreshToken, user}); // TODO: put tokens inside user, like loginGoogle ?
+    //res.status(200).json({ ...user, accessToken, refreshToken});
   } catch (error) {
+    console.log('LOGIN 6');
     res.status(500).json({ message: error.message })
   }
 };
@@ -157,4 +164,19 @@ exports.loginGoogle = async (req, res) => { // TODO!!!
   console.log("Auth.loginGoogle:", req);
   //res.status(200).json({ accessToken, refreshToken, user});
   res.status(200).json({ user: res.user });
+};
+
+// @route POST api/auth/loginGoogle
+// @desc Login user and return JWT token (? TODO...)
+// @access Public
+exports.loginGoogleCallback = async (req, res) => { // TODO!!!
+  res.cookie("auth", { user: req.user }, {
+    secure: true, //process.env.NODE_ENV !== "development",
+    httpOnly: false,
+    maxAge: 2 * 60 * 60 * 1000, // TODO: put maxAge in config
+  });
+  res.redirect("/");
+  //res.status(200).json({ accessToken, refreshToken, user: req.user });
+  //res.status(200).json({ user: res.user });
+  //res.redirect("/");
 };

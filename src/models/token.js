@@ -1,3 +1,4 @@
+// Token for send verification email - TODO: rename something else (verificationCode?)
 const mongoose = require('mongoose');
 
 const tokenSchema = new mongoose.Schema({

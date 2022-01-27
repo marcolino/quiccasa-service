@@ -1,16 +1,20 @@
 const passport = require("passport");
 
 module.exports = (req, res, next) => {
-    passport.authenticate("jwt", function(err, user, info) {
-        if (err) return next(err);
+console.log("passport.authenticate"); 
+  passport.authenticate("jwt", function(err, user, info) {
+//console.log("ERR:", err);
+//console.log("INFO:", info);
 
-        if (!user) return res.status(401).json({ message: "Unauthorized", reason: "No Token Provided" }); // TODO if (!user.token)) ???
+    if (err) return res.status(401).json({ message: err.message, reason: err.reason ? err.reason : null }); // TODO: can this happen?
+    if (!user) return res.status(401).json({ message: "Unauthorized", reason: "No Token Provided" });
+    // TODO if (!user.token)) ???
 
-        req.user = user;
+    req.user = user;
 
-        next();
+    next();
 
-    })(req, res, next);
+  })(req, res, next);
 };
 
 // const passport = require("passport");
@@ -26,15 +30,15 @@ module.exports = (req, res, next) => {
 // }
 
 // exports.getToken = user => {
-//     const accessToken =  jwt.sign(user, process.env.JWT_ACCESS_TOKEN_SECRET, {
-//     expiresIn: eval(process.env.JWT_ACCESS_TOKEN_EXPIRY),
+//   const accessToken =  jwt.sign(user, process.env.JWT_ACCESS_TOKEN_SECRET, {
+//   expiresIn: eval(process.env.JWT_ACCESS_TOKEN_EXPIRY),
 //   });
 //   return accessToken;
 // }
 
 // exports.getRefreshToken = user => {
 //   const refreshToken = jwt.sign(user, process.env.JWT_REFRESH_TOKEN_SECRET, {
-//     expiresIn: eval(process.env.JWT_REFRESH_TOKEN_EXPIRY),
+//   expiresIn: eval(process.env.JWT_REFRESH_TOKEN_EXPIRY),
 //   })
 //   return refreshToken;
 // }
