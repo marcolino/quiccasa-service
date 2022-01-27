@@ -9,7 +9,7 @@ const opts = {
   callbackURL: "http://localhost:5000/api/auth/loginGoogleCallback",
   passReqToCallback: true
 };
-console.log("OPT:", opt);
+console.log("OPTS:", opts);
 
 module.exports = passport => {
   passport.use(
